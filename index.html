@@ -67,6 +67,8 @@
                 margin: 0;
                 padding: 0;
                 background: white;
+                border: none;
+                box-shadow: none;
             }
             .no-print {
                 display: none !important;
@@ -81,6 +83,13 @@
         /* Custom Tree Styling */
         .tree-shadow {
             filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.1));
+        }
+
+        /* Theme Selector Active State */
+        .theme-btn.active {
+            border-color: #0d9488; /* teal-600 */
+            background-color: #f0fdfa; /* teal-50 */
+            transform: scale(1.05);
         }
 
         /* Loading Overlay */
@@ -128,78 +137,105 @@
 
         <!-- Left Panel: Input Form -->
         <div class="w-full md:w-1/3 bg-white rounded-2xl shadow-xl p-6 no-print overflow-y-auto max-h-[90vh]">
-            <h2 class="text-2xl font-bold text-teal-700 mb-4 border-b pb-2">Isi Datamu</h2>
+            
+            <h2 class="text-xl font-bold text-teal-700 mb-4 border-b pb-2">1. Pilih Tampilan</h2>
+            
+            <!-- Theme Selector -->
+            <div class="grid grid-cols-5 gap-2 mb-6">
+                <button onclick="window.setTemplate('classic')" id="btn-classic" class="theme-btn active flex flex-col items-center justify-center p-2 rounded-lg border-2 border-transparent hover:bg-gray-50 transition">
+                    <div class="w-6 h-6 rounded-full bg-green-500 mb-1"></div>
+                    <span class="text-[10px] font-bold">Klasik</span>
+                </button>
+                <button onclick="window.setTemplate('sakura')" id="btn-sakura" class="theme-btn flex flex-col items-center justify-center p-2 rounded-lg border-2 border-transparent hover:bg-gray-50 transition">
+                    <div class="w-6 h-6 rounded-full bg-pink-400 mb-1"></div>
+                    <span class="text-[10px] font-bold">Sakura</span>
+                </button>
+                <button onclick="window.setTemplate('autumn')" id="btn-autumn" class="theme-btn flex flex-col items-center justify-center p-2 rounded-lg border-2 border-transparent hover:bg-gray-50 transition">
+                    <div class="w-6 h-6 rounded-full bg-orange-500 mb-1"></div>
+                    <span class="text-[10px] font-bold">Gugur</span>
+                </button>
+                <button onclick="window.setTemplate('modern')" id="btn-modern" class="theme-btn flex flex-col items-center justify-center p-2 rounded-lg border-2 border-transparent hover:bg-gray-50 transition">
+                    <div class="w-6 h-6 rounded-full bg-slate-500 mb-1"></div>
+                    <span class="text-[10px] font-bold">Modern</span>
+                </button>
+                <button onclick="window.setTemplate('fantasy')" id="btn-fantasy" class="theme-btn flex flex-col items-center justify-center p-2 rounded-lg border-2 border-transparent hover:bg-gray-50 transition">
+                    <div class="w-6 h-6 rounded-full bg-purple-500 mb-1"></div>
+                    <span class="text-[10px] font-bold">Fantasi</span>
+                </button>
+            </div>
+
+            <h2 class="text-xl font-bold text-teal-700 mb-4 border-b pb-2">2. Isi Datamu</h2>
             
             <!-- Biodata -->
-            <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div class="mb-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <h3 class="font-bold text-slate-700 mb-2"><i class="fas fa-user-circle mr-2"></i>Identitas Siswa</h3>
-                <input type="text" id="inputName" placeholder="Nama Lengkap" class="w-full p-2 mb-2 border rounded-lg focus:ring-2 focus:ring-teal-400 outline-none transition-colors" oninput="window.handleInput('name', this.value)">
-                <input type="text" id="inputClass" placeholder="Kelas" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-teal-400 outline-none transition-colors" oninput="window.handleInput('class', this.value)">
+                <input type="text" id="inputName" placeholder="Nama Lengkap" class="w-full p-2 mb-2 border rounded-lg focus:ring-2 focus:ring-teal-400 outline-none transition-colors text-sm" oninput="window.handleInput('name', this.value)">
+                <input type="text" id="inputClass" placeholder="Kelas" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-teal-400 outline-none transition-colors text-sm" oninput="window.handleInput('class', this.value)">
             </div>
 
             <!-- Accordion Controls for Tree Parts -->
-            <div class="space-y-4">
+            <div class="space-y-3">
                 
                 <!-- Akar -->
                 <div class="border rounded-xl overflow-hidden">
-                    <button class="w-full bg-amber-100 p-3 text-left font-bold text-amber-900 flex justify-between items-center hover:bg-amber-200 transition" onclick="window.toggleSection('rootSection')">
-                        <span><i class="fas fa-seedling mr-2"></i>1. Akar (Nilai & Pondasi)</span>
+                    <button class="w-full bg-amber-100 p-2.5 text-left font-bold text-amber-900 flex justify-between items-center hover:bg-amber-200 transition text-sm" onclick="window.toggleSection('rootSection')">
+                        <span><i class="fas fa-seedling mr-2"></i>Akar (Nilai & Pondasi)</span>
                         <i class="fas fa-chevron-down transition-transform duration-300" id="icon-rootSection"></i>
                     </button>
-                    <div id="rootSection" class="p-4 bg-white hidden transition-all">
-                        <p class="text-xs text-gray-500 mb-2">Apa prinsip hidupmu? Siapa pendukung utamamu?</p>
+                    <div id="rootSection" class="p-3 bg-white hidden transition-all">
+                        <p class="text-[10px] text-gray-500 mb-2">Prinsip hidup / Pendukung utama?</p>
                         <div id="rootsList" class="space-y-2 mb-2"></div>
                         <div class="flex gap-2">
-                            <input type="text" id="rootInput" placeholder="Contoh: Kejujuran, Orang Tua" class="flex-1 p-2 border rounded text-sm focus:border-amber-500 outline-none" onkeypress="window.handleEnter(event, 'roots', 'rootInput')">
-                            <button onclick="window.addItem('roots', 'rootInput')" class="bg-amber-600 text-white px-3 rounded hover:bg-amber-700"><i class="fas fa-plus"></i></button>
+                            <input type="text" id="rootInput" placeholder="Contoh: Jujur, Doa Ibu" class="flex-1 p-2 border rounded text-xs focus:border-amber-500 outline-none" onkeypress="window.handleEnter(event, 'roots', 'rootInput')">
+                            <button onclick="window.addItem('roots', 'rootInput')" class="bg-amber-600 text-white px-3 rounded hover:bg-amber-700 text-sm"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Batang -->
                 <div class="border rounded-xl overflow-hidden">
-                    <button class="w-full bg-orange-100 p-3 text-left font-bold text-orange-900 flex justify-between items-center hover:bg-orange-200 transition" onclick="window.toggleSection('trunkSection')">
-                        <span><i class="fas fa-dumbbell mr-2"></i>2. Batang (Keahlian/Skill)</span>
+                    <button class="w-full bg-orange-100 p-2.5 text-left font-bold text-orange-900 flex justify-between items-center hover:bg-orange-200 transition text-sm" onclick="window.toggleSection('trunkSection')">
+                        <span><i class="fas fa-dumbbell mr-2"></i>Batang (Keahlian/Skill)</span>
                         <i class="fas fa-chevron-down transition-transform duration-300" id="icon-trunkSection"></i>
                     </button>
-                    <div id="trunkSection" class="p-4 bg-white hidden">
-                        <p class="text-xs text-gray-500 mb-2">Apa kemampuanmu? (Hard skill / Soft skill)</p>
+                    <div id="trunkSection" class="p-3 bg-white hidden">
+                        <p class="text-[10px] text-gray-500 mb-2">Kemampuanmu? (Hard/Soft skill)</p>
                         <div id="trunkList" class="space-y-2 mb-2"></div>
                         <div class="flex gap-2">
-                            <input type="text" id="trunkInput" placeholder="Contoh: Matematika, Komunikasi" class="flex-1 p-2 border rounded text-sm focus:border-orange-500 outline-none" onkeypress="window.handleEnter(event, 'trunk', 'trunkInput')">
-                            <button onclick="window.addItem('trunk', 'trunkInput')" class="bg-orange-600 text-white px-3 rounded hover:bg-orange-700"><i class="fas fa-plus"></i></button>
+                            <input type="text" id="trunkInput" placeholder="Contoh: Matematika, Komunikasi" class="flex-1 p-2 border rounded text-xs focus:border-orange-500 outline-none" onkeypress="window.handleEnter(event, 'trunk', 'trunkInput')">
+                            <button onclick="window.addItem('trunk', 'trunkInput')" class="bg-orange-600 text-white px-3 rounded hover:bg-orange-700 text-sm"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Dahan -->
                 <div class="border rounded-xl overflow-hidden">
-                    <button class="w-full bg-green-100 p-3 text-left font-bold text-green-900 flex justify-between items-center hover:bg-green-200 transition" onclick="window.toggleSection('branchSection')">
-                        <span><i class="fas fa-code-branch mr-2"></i>3. Dahan (Minat/Hobi)</span>
+                    <button class="w-full bg-green-100 p-2.5 text-left font-bold text-green-900 flex justify-between items-center hover:bg-green-200 transition text-sm" onclick="window.toggleSection('branchSection')">
+                        <span><i class="fas fa-code-branch mr-2"></i>Dahan (Minat/Hobi)</span>
                         <i class="fas fa-chevron-down transition-transform duration-300" id="icon-branchSection"></i>
                     </button>
-                    <div id="branchSection" class="p-4 bg-white hidden">
-                        <p class="text-xs text-gray-500 mb-2">Apa yang kamu suka lakukan?</p>
+                    <div id="branchSection" class="p-3 bg-white hidden">
+                        <p class="text-[10px] text-gray-500 mb-2">Apa yang kamu suka lakukan?</p>
                         <div id="branchList" class="space-y-2 mb-2"></div>
                         <div class="flex gap-2">
-                            <input type="text" id="branchInput" placeholder="Contoh: Menggambar, Robotik" class="flex-1 p-2 border rounded text-sm focus:border-green-500 outline-none" onkeypress="window.handleEnter(event, 'branch', 'branchInput')">
-                            <button onclick="window.addItem('branch', 'branchInput')" class="bg-green-600 text-white px-3 rounded hover:bg-green-700"><i class="fas fa-plus"></i></button>
+                            <input type="text" id="branchInput" placeholder="Contoh: Menggambar, Coding" class="flex-1 p-2 border rounded text-xs focus:border-green-500 outline-none" onkeypress="window.handleEnter(event, 'branch', 'branchInput')">
+                            <button onclick="window.addItem('branch', 'branchInput')" class="bg-green-600 text-white px-3 rounded hover:bg-green-700 text-sm"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Buah/Daun -->
                 <div class="border rounded-xl overflow-hidden">
-                    <button class="w-full bg-teal-100 p-3 text-left font-bold text-teal-900 flex justify-between items-center hover:bg-teal-200 transition" onclick="window.toggleSection('leafSection')">
-                        <span><i class="fas fa-apple-alt mr-2"></i>4. Buah (Cita-cita Karir)</span>
+                    <button class="w-full bg-teal-100 p-2.5 text-left font-bold text-teal-900 flex justify-between items-center hover:bg-teal-200 transition text-sm" onclick="window.toggleSection('leafSection')">
+                        <span><i class="fas fa-apple-alt mr-2"></i>Buah (Cita-cita Karir)</span>
                         <i class="fas fa-chevron-down transition-transform duration-300" id="icon-leafSection"></i>
                     </button>
-                    <div id="leafSection" class="p-4 bg-white hidden">
-                        <p class="text-xs text-gray-500 mb-2">Apa pekerjaan impianmu?</p>
+                    <div id="leafSection" class="p-3 bg-white hidden">
+                        <p class="text-[10px] text-gray-500 mb-2">Pekerjaan impianmu?</p>
                         <div id="leafList" class="space-y-2 mb-2"></div>
                         <div class="flex gap-2">
-                            <input type="text" id="leafInput" placeholder="Contoh: Arsitek, Dokter" class="flex-1 p-2 border rounded text-sm focus:border-teal-500 outline-none" onkeypress="window.handleEnter(event, 'leaf', 'leafInput')">
-                            <button onclick="window.addItem('leaf', 'leafInput')" class="bg-teal-600 text-white px-3 rounded hover:bg-teal-700"><i class="fas fa-plus"></i></button>
+                            <input type="text" id="leafInput" placeholder="Contoh: Arsitek, Dokter" class="flex-1 p-2 border rounded text-xs focus:border-teal-500 outline-none" onkeypress="window.handleEnter(event, 'leaf', 'leafInput')">
+                            <button onclick="window.addItem('leaf', 'leafInput')" class="bg-teal-600 text-white px-3 rounded hover:bg-teal-700 text-sm"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -216,7 +252,7 @@
         </div>
 
         <!-- Right Panel: Visual Tree -->
-        <div id="tree-container" class="w-full md:w-2/3 bg-white rounded-2xl shadow-xl p-4 md:p-8 relative flex flex-col items-center justify-center min-h-[600px] border-4 border-teal-50">
+        <div id="tree-container" class="w-full md:w-2/3 bg-white rounded-2xl shadow-xl p-4 md:p-8 relative flex flex-col items-center justify-center min-h-[600px] border-4 border-teal-50 transition-colors duration-500">
             
             <!-- Header for Print -->
             <div class="print-only-header hidden w-full mb-4">
@@ -227,8 +263,8 @@
                 </div>
             </div>
 
-            <!-- Background Landscape -->
-            <div class="absolute bottom-0 w-full h-16 bg-gradient-to-t from-green-200 to-white rounded-b-xl z-0"></div>
+            <!-- Background Landscape (Dynamic) -->
+            <div id="bg-landscape" class="absolute bottom-0 w-full h-16 bg-gradient-to-t from-green-200 to-white rounded-b-xl z-0 transition-all duration-500"></div>
             
             <!-- The Tree SVG Structure -->
             <div class="relative w-full max-w-[500px] aspect-[3/4] z-10 tree-shadow transition-all duration-500" id="visual-tree-wrapper">
@@ -236,64 +272,55 @@
                 <!-- SVG Drawing of the Tree (Dynamic Canvas) -->
                 <svg viewBox="0 0 400 500" class="w-full h-full overflow-visible">
                     
-                    <!-- Roots (Akar) Area -->
-                    <g id="svg-roots" class="text-amber-800">
-                        <path d="M180,420 Q160,460 120,480" stroke="#78350f" stroke-width="8" fill="none" />
-                        <path d="M200,420 Q200,470 200,500" stroke="#78350f" stroke-width="8" fill="none" />
-                        <path d="M220,420 Q240,460 280,480" stroke="#78350f" stroke-width="8" fill="none" />
-                        
-                        <!-- Root Labels Container (ForeignObject for HTML text) -->
-                        <foreignObject x="50" y="440" width="300" height="60">
-                            <div id="visual-roots" class="flex justify-center items-end gap-2 h-full text-xs text-center font-bold text-amber-900">
-                                <!-- Dynamic Roots items appear here -->
-                            </div>
-                        </foreignObject>
+                    <!-- Dynamic Tree Parts Group -->
+                    <g id="svg-tree-parts" class="transition-all duration-500">
+                        <!-- Path data will be injected here by JS -->
                     </g>
-
-                    <!-- Trunk (Batang) Area -->
-                    <path d="M160,420 Q180,300 180,250 Q180,200 150,150 L250,150 Q220,200 220,250 Q220,300 240,420 Z" fill="#92400e" stroke="#78350f" stroke-width="3" />
                     
-                    <!-- Trunk Labels Container -->
+                    <!-- Data Containers (Positioned relatively constant, styled by JS) -->
+
+                    <!-- Roots Labels -->
+                    <foreignObject x="50" y="440" width="300" height="60">
+                        <div id="visual-roots" class="flex justify-center items-end gap-2 h-full text-xs text-center font-bold">
+                            <!-- Dynamic Roots items appear here -->
+                        </div>
+                    </foreignObject>
+
+                    <!-- Trunk Labels -->
                     <foreignObject x="170" y="280" width="60" height="120">
                          <div id="visual-trunk" class="flex flex-col-reverse items-center gap-1 h-full w-full overflow-hidden p-1">
                             <!-- Dynamic Trunk items -->
                          </div>
                     </foreignObject>
 
-                    <!-- Crown/Leaves (Mahkota Pohon) - Visual Background -->
-                    <!-- Layer 1 (Back) -->
-                    <path d="M50,150 Q20,100 80,50 Q150,0 200,40 Q250,0 320,50 Q380,100 350,150 Q380,200 320,230 Q200,280 80,230 Q20,200 50,150" fill="#4ade80" opacity="0.6" />
-                    <!-- Layer 2 (Front) -->
-                    <path d="M70,160 Q50,110 100,70 Q160,30 200,60 Q240,30 300,70 Q350,110 330,160 Q350,200 300,220 Q200,260 100,220 Q50,200 70,160" fill="#22c55e" stroke="#15803d" stroke-width="3" />
-
-                    <!-- Leaves/Fruits Container (Absolute positioning inside tree crown) -->
+                    <!-- Leaves/Fruits -->
                     <foreignObject x="50" y="40" width="300" height="200">
                         <div id="visual-crown" class="w-full h-full flex flex-wrap justify-center items-center gap-2 p-4 content-center">
                             <!-- Dynamic Leaves/Fruits -->
                         </div>
                     </foreignObject>
 
-                    <!-- Branches (Dahan) Labels Floating near branches -->
+                    <!-- Branches Labels -->
                     <foreignObject x="20" y="150" width="100" height="100">
-                         <div id="visual-branch-left" class="flex flex-col items-end gap-1 text-[10px] font-bold text-green-900"></div>
+                         <div id="visual-branch-left" class="flex flex-col items-end gap-1 text-[10px] font-bold"></div>
                     </foreignObject>
                     <foreignObject x="280" y="150" width="100" height="100">
-                         <div id="visual-branch-right" class="flex flex-col items-start gap-1 text-[10px] font-bold text-green-900"></div>
+                         <div id="visual-branch-right" class="flex flex-col items-start gap-1 text-[10px] font-bold"></div>
                     </foreignObject>
 
                 </svg>
 
-                <!-- Soil -->
-                <div class="absolute bottom-[20px] left-1/2 -translate-x-1/2 w-[80%] h-4 bg-amber-900/20 rounded-[50%] blur-sm -z-10"></div>
+                <!-- Soil/Shadow -->
+                <div id="soil-shadow" class="absolute bottom-[20px] left-1/2 -translate-x-1/2 w-[80%] h-4 bg-amber-900/20 rounded-[50%] blur-sm -z-10 transition-colors duration-500"></div>
             </div>
 
-            <!-- Legend/Keterangan (Visible on screen) -->
+            <!-- Legend/Keterangan -->
             <div class="absolute bottom-4 right-4 bg-white/90 p-3 rounded-lg shadow border text-xs no-print">
-                <h4 class="font-bold mb-1">Keterangan:</h4>
-                <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 rounded-full bg-teal-500"></div> Karir Impian</div>
-                <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 bg-green-200 border border-green-600"></div> Minat</div>
-                <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 bg-orange-700"></div> Skill</div>
-                <div class="flex items-center gap-2"><div class="w-3 h-3 bg-amber-900"></div> Nilai Diri</div>
+                <h4 class="font-bold mb-1 text-slate-700">Keterangan:</h4>
+                <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 rounded-full" id="legend-fruit"></div> Karir Impian</div>
+                <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 border" id="legend-branch"></div> Minat</div>
+                <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3" id="legend-trunk"></div> Skill</div>
+                <div class="flex items-center gap-2"><div class="w-3 h-3" id="legend-root"></div> Nilai Diri</div>
             </div>
 
         </div>
@@ -307,7 +334,6 @@
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // --- Firebase Init ---
-        // Konfigurasi Firebase Anda (Hardcoded agar siap online)
         const firebaseConfig = {
           apiKey: "AIzaSyD6HB4hpjxwDH72nLfTkAVzZvwzoXk49OI",
           authDomain: "pohon-karir.firebaseapp.com",
@@ -320,17 +346,16 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        // Gunakan ID default jika berjalan di luar environment sandbox
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'pohon-karir-public';
 
         let currentUser = null;
         let unsubscribe = null;
 
-        // State Data (Default)
+        // State Data
         let treeData = {
             name: '',
             class: '',
+            template: 'classic', // Default template
             roots: [],
             trunk: [],
             branches: [],
@@ -340,22 +365,14 @@
         // --- Auth & Data Logic ---
         async function initAuth() {
             try {
-                // Coba gunakan token custom jika ada (untuk preview di editor ini)
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
-                    // Jika tidak ada token, langsung anonymous auth
                     await signInAnonymously(auth);
                 }
             } catch (error) {
-                console.warn("Autentikasi token gagal (mungkin karena beda config), mencoba Anonymous Auth...", error);
-                // Fallback: Jika custom token gagal (misal karena config user berbeda),
-                // gunakan Anonymous Auth biasa agar tetap jalan.
-                try {
-                    await signInAnonymously(auth);
-                } catch (anonError) {
-                    console.error("Login Anonim juga gagal:", anonError);
-                }
+                console.warn("Auth token failed, trying anonymous...", error);
+                try { await signInAnonymously(auth); } catch (e) { console.error("Anon failed", e); }
             }
         }
         
@@ -366,26 +383,22 @@
                 currentUser = user;
                 document.getElementById('userIdDisplay').textContent = user.uid.substring(0,6) + '...';
                 setupRealtimeListener(user.uid);
-            } else {
-                // Handle logout if needed
             }
         });
 
         function setupRealtimeListener(userId) {
-            // FIX: Added 'main' to make document path valid (even number of segments)
-            // Path: artifacts/{appId}/users/{userId}/pohon_karir/main
             const docRef = doc(db, 'artifacts', appId, 'users', userId, 'pohon_karir', 'main');
             
-            // Listen for changes
             unsubscribe = onSnapshot(docRef, (docSnap) => {
                 const loadingOverlay = document.getElementById('loading-overlay');
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
 
                 if (docSnap.exists()) {
-                    treeData = docSnap.data();
+                    const data = docSnap.data();
+                    treeData = { ...treeData, ...data }; // Merge to ensure template exists
+                    if(!treeData.template) treeData.template = 'classic';
                     syncUI();
                 } else {
-                    // Initialize empty doc if new
                     saveData();
                 }
                 updateStatus('Tersimpan', 'bg-green-500');
@@ -399,7 +412,6 @@
             if (!currentUser) return;
             updateStatus('Menyimpan...', 'bg-yellow-400', true);
             
-            // FIX: Added 'main' here as well
             const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'pohon_karir', 'main');
             try {
                 await setDoc(docRef, treeData);
@@ -409,29 +421,23 @@
             }
         }
 
-        // --- UI Logic (Attached to Window for HTML access) ---
+        // --- UI Logic ---
 
-        // Debounce for text input (prevent spamming DB)
+        // Debounce
         let timeout = null;
         window.handleInput = function(field, value) {
             treeData[field] = value;
-            
-            // Local update immediately
             if(field === 'name') document.getElementById('printName').textContent = `Nama: ${value || '-'}`;
             if(field === 'class') document.getElementById('printClass').textContent = `Kelas: ${value || '-'}`;
 
-            // DB update delayed
             clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                saveData();
-            }, 1000);
+            timeout = setTimeout(() => { saveData(); }, 1000);
             updateStatus('Mengetik...', 'bg-blue-400');
         }
 
         window.toggleSection = function(id) {
             const el = document.getElementById(id);
             const icon = document.getElementById('icon-' + id);
-            
             if (el.classList.contains('hidden')) {
                 el.classList.remove('hidden');
                 if(icon) icon.style.transform = 'rotate(180deg)';
@@ -441,32 +447,35 @@
             }
         }
 
+        // Template Selector Logic
+        window.setTemplate = function(templateId) {
+            treeData.template = templateId;
+            renderVisualTree(); // Immediate update
+            saveData(); // Save to DB
+        }
+
         window.addItem = function(type, inputId) {
             const input = document.getElementById(inputId);
             const value = input.value.trim();
             
             if (value) {
-                // Validations
                 if (type === 'roots' && treeData.roots.length >= 3) return alert('Maksimal 3 akar pondasi.');
                 if (type === 'trunk' && treeData.trunk.length >= 5) return alert('Maksimal 5 skill.');
                 if (type === 'leaf' && treeData.leaves.length >= 8) return alert('Maksimal 8 cita-cita/karir.');
 
-                // Update Data
                 if (type === 'branch') treeData.branches.push(value);
                 else if (type === 'roots') treeData.roots.push(value);
                 else if (type === 'trunk') treeData.trunk.push(value);
                 else treeData.leaves.push(value);
 
                 input.value = '';
-                renderAll(); // Immediate local render
-                saveData();  // Sync to DB
+                renderAll();
+                saveData();
             }
         }
 
         window.handleEnter = function(e, type, inputId) {
-            if (e.key === 'Enter') {
-                window.addItem(type, inputId);
-            }
+            if (e.key === 'Enter') window.addItem(type, inputId);
         }
 
         window.removeItem = function(type, index) {
@@ -474,7 +483,6 @@
             if (type === 'trunk') treeData.trunk.splice(index, 1);
             if (type === 'branch') treeData.branches.splice(index, 1);
             if (type === 'leaf') treeData.leaves.splice(index, 1);
-            
             renderAll();
             saveData();
         }
@@ -482,12 +490,9 @@
         window.resetTree = function() {
             if(confirm('Hapus semua data pohon? Data akan hilang permanen.')) {
                 treeData = {
-                    name: treeData.name, // keep name
-                    class: treeData.class, // keep class
-                    roots: [],
-                    trunk: [],
-                    branches: [],
-                    leaves: []
+                    name: treeData.name, class: treeData.class,
+                    template: 'classic',
+                    roots: [], trunk: [], branches: [], leaves: []
                 };
                 syncUI();
                 saveData();
@@ -500,19 +505,14 @@
             const statusEl = document.getElementById('save-status');
             const dot = statusEl.querySelector('div');
             statusEl.querySelector('span').textContent = text;
-            
             dot.className = `w-2 h-2 rounded-full ${colorClass} ${animate ? 'animate-pulse' : ''}`;
         }
 
         function syncUI() {
-            // Inputs
             document.getElementById('inputName').value = treeData.name || '';
             document.getElementById('inputClass').value = treeData.class || '';
-            
-            // Print labels
             document.getElementById('printName').textContent = `Nama: ${treeData.name || '-'}`;
             document.getElementById('printClass').textContent = `Kelas: ${treeData.class || '-'}`;
-            
             renderAll();
         }
 
@@ -521,79 +521,231 @@
             renderList('trunk', 'trunkList');
             renderList('branch', 'branchList');
             renderList('leaf', 'leafList');
-            
             renderVisualTree();
         }
 
         function renderList(type, elementId) {
             const container = document.getElementById(elementId);
             container.innerHTML = '';
-            
-            let dataArr = [];
-            if(type === 'roots') dataArr = treeData.roots;
-            if(type === 'trunk') dataArr = treeData.trunk;
-            if(type === 'branch') dataArr = treeData.branches;
-            if(type === 'leaf') dataArr = treeData.leaves;
-
-            if(!dataArr) dataArr = [];
-
+            let dataArr = treeData[type] || [];
             dataArr.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-200 text-sm animate-[fadeIn_0.3s_ease-out]';
-                div.innerHTML = `
-                    <span>${item}</span>
-                    <button onclick="window.removeItem('${type}', ${index})" class="text-red-500 hover:text-red-700 w-6 h-6 flex items-center justify-center rounded hover:bg-red-50 transition">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                `;
+                div.className = 'flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-200 text-xs animate-[fadeIn_0.3s_ease-out]';
+                div.innerHTML = `<span>${item}</span><button onclick="window.removeItem('${type}', ${index})" class="text-red-500 hover:text-red-700 w-5 h-5 flex items-center justify-center rounded hover:bg-red-50"><i class="fas fa-trash-alt"></i></button>`;
                 container.appendChild(div);
             });
         }
 
+        // --- SVG Theme Definitions ---
+        const themes = {
+            classic: {
+                colors: { root: 'text-amber-900', trunk: 'text-orange-900', branch: 'text-green-800', leafTxt: 'text-teal-900', bg: 'from-green-200 to-white' },
+                render: () => `
+                    <g id="svg-roots">
+                        <!-- Akar yang lebih natural -->
+                        <path d="M180,420 Q160,450 140,460 T100,470" stroke="#78350f" stroke-width="6" fill="none" stroke-linecap="round" />
+                        <path d="M200,420 Q200,460 205,490" stroke="#78350f" stroke-width="6" fill="none" stroke-linecap="round" />
+                        <path d="M220,420 Q240,450 260,460 T300,470" stroke="#78350f" stroke-width="6" fill="none" stroke-linecap="round" />
+                    </g>
+                    
+                    <!-- Batang Pohon Natural (Curvy) -->
+                    <path d="M160,420 
+                             Q170,350 170,300 
+                             Q150,250 130,200 
+                             L270,200 
+                             Q250,250 230,300 
+                             Q230,350 240,420 
+                             Z" 
+                             fill="#92400e" stroke="#78350f" stroke-width="3" />
+                    
+                    <!-- Detail Kayu -->
+                    <path d="M190,380 Q200,360 190,340" stroke="#78350f" stroke-width="2" fill="none" opacity="0.5" />
+                    <path d="M210,320 Q200,300 210,280" stroke="#78350f" stroke-width="2" fill="none" opacity="0.5" />
+
+                    <!-- Daun Rimbun (Cloud style) Layer Belakang -->
+                    <path d="M100,200 Q50,150 100,100 Q150,50 200,80 Q250,50 300,100 Q350,150 300,200 Z" fill="#15803d" opacity="0.3" transform="translate(0, -20) scale(1.1)" />
+
+                    <!-- Daun Rimbun Layer Tengah -->
+                    <circle cx="140" cy="160" r="50" fill="#16a34a" />
+                    <circle cx="260" cy="160" r="50" fill="#16a34a" />
+                    <circle cx="200" cy="100" r="60" fill="#16a34a" />
+                    <circle cx="200" cy="180" r="50" fill="#16a34a" />
+
+                    <!-- Daun Rimbun Layer Depan (Highlight) -->
+                    <circle cx="140" cy="150" r="40" fill="#22c55e" opacity="0.8" />
+                    <circle cx="260" cy="150" r="40" fill="#22c55e" opacity="0.8" />
+                    <circle cx="200" cy="90" r="50" fill="#22c55e" opacity="0.8" />
+                `
+            },
+            sakura: {
+                colors: { root: 'text-slate-800', trunk: 'text-slate-900', branch: 'text-pink-900', leafTxt: 'text-rose-900', bg: 'from-pink-100 to-white' },
+                render: () => `
+                    <g id="svg-roots">
+                        <path d="M180,420 Q160,450 140,460" stroke="#4a4e69" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        <path d="M200,420 Q205,460 200,490" stroke="#4a4e69" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        <path d="M220,420 Q240,450 270,460" stroke="#4a4e69" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    </g>
+                    <!-- Batang Sakura -->
+                    <path d="M170,420 Q180,300 180,250 Q160,200 130,150 L270,150 Q240,200 220,250 Q220,300 230,420 Z" fill="#5c5f76" stroke="#4a4e69" stroke-width="2" />
+                    
+                    <!-- Dedaunan Sakura (Cloud style) -->
+                    <circle cx="120" cy="160" r="50" fill="#fbcfe8" opacity="0.9" />
+                    <circle cx="280" cy="160" r="50" fill="#fbcfe8" opacity="0.9" />
+                    <circle cx="200" cy="90" r="60" fill="#fbcfe8" opacity="0.9" />
+                    <circle cx="200" cy="190" r="50" fill="#fbcfe8" opacity="0.8" />
+                    <circle cx="160" cy="120" r="40" fill="#f9a8d4" opacity="0.6" />
+                    <circle cx="240" cy="120" r="40" fill="#f9a8d4" opacity="0.6" />
+
+                    <!-- Sakura Petals (Detail) -->
+                    <circle cx="100" cy="100" r="5" fill="white" opacity="0.7" />
+                    <circle cx="300" cy="120" r="4" fill="white" opacity="0.7" />
+                    <circle cx="200" cy="60" r="6" fill="white" opacity="0.7" />
+                `
+            },
+            autumn: {
+                colors: { root: 'text-orange-900', trunk: 'text-amber-900', branch: 'text-red-900', leafTxt: 'text-orange-900', bg: 'from-orange-100 to-white' },
+                render: () => `
+                    <g id="svg-roots">
+                         <path d="M180,420 Q160,450 130,470" stroke="#7c2d12" stroke-width="8" fill="none" stroke-linecap="round"/>
+                         <path d="M220,420 Q240,450 270,470" stroke="#7c2d12" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    </g>
+                    <!-- Batang Autumn -->
+                    <path d="M165,420 Q175,300 175,250 Q175,200 140,140 L260,140 Q225,200 225,250 Q225,300 235,420 Z" fill="#9a3412" stroke="#7c2d12" stroke-width="3" />
+                    
+                    <!-- Dedaunan Autumn (Cloud Style) -->
+                    <circle cx="130" cy="150" r="50" fill="#f59e0b" opacity="0.9" />
+                    <circle cx="270" cy="150" r="50" fill="#f59e0b" opacity="0.9" />
+                    <circle cx="200" cy="80" r="60" fill="#ea580c" opacity="0.9" />
+                    <circle cx="200" cy="170" r="55" fill="#d97706" opacity="0.8" />
+                    
+                    <!-- Highlights -->
+                    <circle cx="160" cy="110" r="40" fill="#ef4444" opacity="0.7" />
+                    <circle cx="240" cy="110" r="40" fill="#ef4444" opacity="0.7" />
+                `
+            },
+            modern: {
+                colors: { root: 'text-slate-600', trunk: 'text-slate-200', branch: 'text-cyan-800', leafTxt: 'text-slate-800', bg: 'from-slate-200 to-white' },
+                render: () => `
+                    <g id="svg-roots">
+                        <line x1="200" y1="420" x2="200" y2="500" stroke="#475569" stroke-width="4" stroke-dasharray="5,5" />
+                        <line x1="180" y1="420" x2="150" y2="480" stroke="#475569" stroke-width="4" stroke-dasharray="5,5" />
+                        <line x1="220" y1="420" x2="250" y2="480" stroke="#475569" stroke-width="4" stroke-dasharray="5,5" />
+                    </g>
+                    <!-- Geometric Trunk -->
+                    <rect x="180" y="250" width="40" height="170" fill="#334155" />
+                    <polygon points="180,250 220,250 200,150" fill="#334155" />
+                    
+                    <!-- Geometric Leaves (Circle) -->
+                    <circle cx="200" cy="140" r="130" fill="#cbd5e1" opacity="0.5" />
+                    <circle cx="200" cy="140" r="110" fill="#e2e8f0" stroke="#475569" stroke-width="2" />
+                    
+                    <!-- Decorative Lines -->
+                    <line x1="200" y1="30" x2="200" y2="250" stroke="#94a3b8" stroke-width="1" />
+                    <line x1="90" y1="140" x2="310" y2="140" stroke="#94a3b8" stroke-width="1" />
+                `
+            },
+            fantasy: {
+                colors: { root: 'text-purple-900', trunk: 'text-indigo-900', branch: 'text-fuchsia-900', leafTxt: 'text-purple-900', bg: 'from-purple-200 to-white' },
+                render: () => `
+                    <g id="svg-roots">
+                        <path d="M180,420 Q160,460 120,480" stroke="#4c1d95" stroke-width="6" fill="none" />
+                        <path d="M200,420 Q200,470 200,500" stroke="#4c1d95" stroke-width="6" fill="none" />
+                        <path d="M220,420 Q240,460 280,480" stroke="#4c1d95" stroke-width="6" fill="none" />
+                    </g>
+                    <!-- Twisted Trunk -->
+                    <path d="M170,420 Q160,350 200,300 Q240,250 200,150 L210,150 Q250,250 210,300 Q170,350 230,420 Z" fill="#5b21b6" stroke="#4c1d95" stroke-width="2" />
+                    
+                    <!-- Cloud/Magic Leaves -->
+                    <path d="M60,150 Q30,100 100,60 Q150,20 200,50 Q250,20 300,60 Q370,100 340,150 Q370,200 300,240 Q200,280 100,240 Q30,200 60,150" fill="#c084fc" opacity="0.5" />
+                    <path d="M80,160 Q60,110 120,80 Q160,50 200,80 Q240,50 280,80 Q340,110 320,160 Q340,200 280,220 Q200,250 120,220 Q60,200 80,160" fill="#a855f7" stroke="#7e22ce" stroke-width="3" />
+                    
+                    <!-- Sparkles -->
+                    <circle cx="120" cy="100" r="3" fill="#fef08a" class="animate-pulse" />
+                    <circle cx="280" cy="120" r="3" fill="#fef08a" class="animate-pulse" style="animation-delay: 0.5s" />
+                    <circle cx="200" cy="60" r="4" fill="#fef08a" class="animate-pulse" style="animation-delay: 1s" />
+                `
+            }
+        };
+
         function renderVisualTree() {
-            // 1. Render Roots
+            const tmplName = treeData.template || 'classic';
+            const theme = themes[tmplName] || themes.classic;
+            
+            // 1. Update Buttons State
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + tmplName);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // 2. Render Background SVG
+            document.getElementById('svg-tree-parts').innerHTML = theme.render();
+            
+            // 3. Update Styles (Backgrounds, Text Colors)
+            document.getElementById('bg-landscape').className = `absolute bottom-0 w-full h-16 bg-gradient-to-t ${theme.colors.bg} rounded-b-xl z-0 transition-all duration-500`;
+            
+            // Legend Colors
+            const fruitColor = tmplName === 'modern' ? 'bg-slate-500' : (tmplName === 'sakura' ? 'bg-rose-500' : (tmplName === 'fantasy' ? 'bg-fuchsia-500' : (tmplName === 'autumn' ? 'bg-red-600' : 'bg-teal-500')));
+            document.getElementById('legend-fruit').className = `w-3 h-3 rounded-full ${fruitColor}`;
+            
+            // --- DATA RENDERING ---
+
+            // Roots
             const vRoots = document.getElementById('visual-roots');
             vRoots.innerHTML = '';
             (treeData.roots || []).forEach(txt => {
                 const el = document.createElement('div');
-                el.className = 'bg-amber-100 border border-amber-800 px-2 py-1 rounded shadow text-[10px] leading-tight max-w-[80px] break-words leaf-pop';
+                // Adjust colors based on theme
+                const bgClass = tmplName === 'modern' ? 'bg-slate-200 border-slate-400 text-slate-800' : (tmplName === 'sakura' ? 'bg-pink-100 border-pink-400 text-pink-900' : 'bg-amber-100 border-amber-800 text-amber-900');
+                
+                el.className = `${bgClass} border px-2 py-1 rounded shadow text-[10px] leading-tight max-w-[80px] break-words leaf-pop font-bold`;
                 el.innerText = txt;
                 vRoots.appendChild(el);
             });
 
-            // 2. Render Trunk
+            // Trunk
             const vTrunk = document.getElementById('visual-trunk');
             vTrunk.innerHTML = '';
             (treeData.trunk || []).forEach(txt => {
                 const el = document.createElement('div');
-                el.className = 'bg-orange-200/90 text-orange-900 px-2 py-0.5 rounded text-[9px] font-bold w-full text-center truncate shadow-sm leaf-pop';
+                const trunkStyle = tmplName === 'modern' ? 'bg-slate-700 text-white' : (tmplName === 'sakura' ? 'bg-slate-700 text-pink-100' : 'bg-orange-200/90 text-orange-900');
+                
+                el.className = `${trunkStyle} px-2 py-0.5 rounded text-[9px] font-bold w-full text-center truncate shadow-sm leaf-pop`;
                 el.innerText = txt;
                 vTrunk.appendChild(el);
             });
 
-            // 3. Render Branches
+            // Branches
             const vBranchL = document.getElementById('visual-branch-left');
             const vBranchR = document.getElementById('visual-branch-right');
-            vBranchL.innerHTML = '';
-            vBranchR.innerHTML = '';
+            vBranchL.innerHTML = ''; vBranchR.innerHTML = '';
             
             (treeData.branches || []).forEach((txt, idx) => {
                 const el = document.createElement('div');
-                el.className = 'bg-green-100 border border-green-600 text-green-800 px-2 py-1 rounded-full shadow-sm leaf-pop';
+                const brStyle = tmplName === 'modern' ? 'bg-white border-slate-400 text-slate-800' : (tmplName === 'autumn' ? 'bg-orange-100 border-orange-600 text-orange-900' : 'bg-green-100 border-green-600 text-green-800');
+                
+                el.className = `${brStyle} border px-2 py-1 rounded-full shadow-sm leaf-pop text-[10px] font-bold`;
                 el.innerText = txt;
-                if (idx % 2 === 0) vBranchL.appendChild(el);
-                else vBranchR.appendChild(el);
+                if (idx % 2 === 0) vBranchL.appendChild(el); else vBranchR.appendChild(el);
             });
 
-            // 4. Render Crown
+            // Leaves/Fruits
             const vCrown = document.getElementById('visual-crown');
             vCrown.innerHTML = '';
             (treeData.leaves || []).forEach(txt => {
                 const wrapper = document.createElement('div');
+                
+                // Customize Fruit Look
+                let fruitClass = 'bg-red-500 border-red-700';
+                let iconClass = 'text-yellow-300';
+                
+                if (tmplName === 'sakura') { fruitClass = 'bg-pink-400 border-pink-600'; iconClass = 'text-white'; }
+                if (tmplName === 'autumn') { fruitClass = 'bg-amber-500 border-amber-700'; iconClass = 'text-red-900'; }
+                if (tmplName === 'modern') { fruitClass = 'bg-slate-600 border-slate-800 rounded-none transform rotate-45'; iconClass = 'text-white -rotate-45'; }
+                if (tmplName === 'fantasy') { fruitClass = 'bg-fuchsia-500 border-fuchsia-700'; iconClass = 'text-cyan-200'; }
+
                 wrapper.className = 'leaf-pop flex flex-col items-center';
                 wrapper.innerHTML = `
-                    <div class="w-10 h-10 bg-red-500 rounded-full shadow-lg flex items-center justify-center border-2 border-red-700 relative group cursor-pointer hover:scale-110 transition-transform">
-                        <i class="fas fa-star text-yellow-300 text-xs"></i>
+                    <div class="w-10 h-10 ${fruitClass} ${tmplName !== 'modern' ? 'rounded-full' : ''} shadow-lg flex items-center justify-center border-2 relative group cursor-pointer hover:scale-110 transition-transform">
+                        <i class="fas fa-star ${iconClass} text-xs"></i>
                         <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-2 py-1 rounded shadow text-[10px] font-bold whitespace-nowrap hidden group-hover:block z-20 pointer-events-none">
                             ${txt}
                             <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
@@ -605,7 +757,6 @@
             });
         }
         
-        // Initial setup icons
         lucide.createIcons();
 
     </script>
